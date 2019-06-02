@@ -26,7 +26,20 @@ Vue.use(Logger, {
 })
 ```
 
+### Using it in your Vue app
+
 Access using this.\$logger
+
+```
+methods: {
+    doSomething() {
+        // do something
+        // ...
+        // log it
+        this.$logger.log("I just did something");
+    }
+}
+```
 
 ### Writing activity to a SharePoint list
 
