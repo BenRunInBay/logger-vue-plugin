@@ -43,7 +43,7 @@ methods: {
 
 ### Writing activity to a SharePoint list
 
-If you use SharePoint, combine this logger with sharepoint-vue-plugin to write activity, such as errors, back to a SharePoint list.
+If you use SharePoint, combine this logger with [sharepoint-vue-plugin](https://github.com/BenRunInBay/sharepoint-vue-plugin) to write activity, such as errors, back to a SharePoint list.
 
 Install:
 
