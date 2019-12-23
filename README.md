@@ -2,6 +2,8 @@
 
 ## Error logger plugin for Vue
 
+### Last updated 2019-12-23
+
 ### Purpose
 
 Use this to log activity in a way where you can see it in the console when running dev/local mode, but it is hidden in production.

@@ -1,20 +1,18 @@
 /*
- * Logger Vue plug-in
- * @date 2019-06-02
- *
- * Use this to log activity in a way where you can see it in the console when running dev/local mode, but it is hidden in production.
- * In production, you can still view activity by running this in your console:
- *  logger.view()
- * Or, enable active logging in production:
- *  logger.on()
- */
+  Logger Vue plug-in
+  @date 2019-12-23
 
-/*
-    Vue installer
+  Use this to log activity in a way where you can see it in the console when running dev/local mode, but it is hidden in production.
+  In production, you can still view activity by running this in your console:
+    logger.view()
+  Or, enable active logging in production:
+    logger.on()
 
+  Vue installer:
     Vue.use(Logger, {
         isActive: process.env.NODE_ENV !== "production",
-        propertyName: "$logger"
+        propertyName: "$logger",
+        listName: "ErrorLogs"
     })
 
     Access using this.$logger
@@ -40,6 +38,7 @@ class Logger {
     this.listName = listName;
     this.saveInterval = saveInterval;
     this.messages = [];
+    this.errors = [];
     if (this.saveInterval) {
       let me = this;
       this.saveIntervalTimer = setTimeout(() => {
@@ -49,9 +48,34 @@ class Logger {
   }
 
   log(message) {
+    this._add(message, this.messages);
+  }
+
+  error(summary, details) {
+    this._add({ summary, details }, this.errors);
+    // write to server log
+    if (this.spc && this.listName) {
+      this.spc
+        .addListItem({
+          listName: this.listName,
+          itemData: {
+            Title: summary,
+            Details: details
+          }
+        })
+        .catch(error => {
+          this._add(
+            { summary: "Write error to server", details: error },
+            this.errors
+          );
+        });
+    }
+  }
+
+  _add(message, list) {
     if (this.isActive && message) {
       if (typeof message == "string" && message.length) {
-        this.messages.push(message);
+        list.push(message);
         if (this.isConsoleActive) console.log(message);
       } else if (typeof message == "object") {
         let s = "";
@@ -60,10 +84,10 @@ class Logger {
         } catch (e) {
           s = message.toString();
         }
-        this.messages.push(s);
+        list.push(s);
         if (this.isConsoleActive) console.log(s);
       } else if (typeof message == "number") {
-        this.messages.push(message.toString());
+        list.push(message.toString());
         if (this.isConsoleActive) console.log(message.toString());
       }
     }
