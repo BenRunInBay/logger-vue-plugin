@@ -1,0 +1,19 @@
+{
+  "name": "logger-vue-plugin",
+  "version": "1.0.0",
+  "description": "Vue error logger",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BenRunInBay/logger-vue-plugin.git"
+  },
+  "author": "Ben Hoffmann",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BenRunInBay/logger-vue-plugin/issues"
+  },
+  "homepage": "https://github.com/BenRunInBay/logger-vue-plugin#readme"
+}

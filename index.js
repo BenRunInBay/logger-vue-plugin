@@ -1,14 +1,11 @@
 /*
   Logger Vue plug-in
-  @date 2019-12-23
+  @date 2020-01-22b
+*/
 
-  Use this to log activity in a way where you can see it in the console when running dev/local mode, but it is hidden in production.
-  In production, you can still view activity by running this in your console:
-    logger.view()
-  Or, enable active logging in production:
-    logger.on()
+/*
+    Vue installer
 
-  Vue installer:
     Vue.use(Logger, {
         isActive: process.env.NODE_ENV !== "production",
         propertyName: "$logger",
@@ -53,8 +50,12 @@ class Logger {
 
   error(summary, details) {
     this._add({ summary, details }, this.errors);
-    // write to server log
+    if (this.isConsoleActive) {
+      console.error(summary);
+      console.error(details);
+    }
     if (this.spc && this.listName) {
+      // write to server log
       this.spc
         .addListItem({
           listName: this.listName,
@@ -74,22 +75,8 @@ class Logger {
 
   _add(message, list) {
     if (this.isActive && message) {
-      if (typeof message == "string" && message.length) {
-        list.push(message);
-        if (this.isConsoleActive) console.log(message);
-      } else if (typeof message == "object") {
-        let s = "";
-        try {
-          s = JSON.stringify(message);
-        } catch (e) {
-          s = message.toString();
-        }
-        list.push(s);
-        if (this.isConsoleActive) console.log(s);
-      } else if (typeof message == "number") {
-        list.push(message.toString());
-        if (this.isConsoleActive) console.log(message.toString());
-      }
+      list.push(message);
+      if (this.isConsoleActive) console.log(message);
     }
   }
 
