@@ -1,6 +1,6 @@
 /*
   Logger Vue plug-in
-  @date 2020-01-22b
+  @date 2020-01-27
 */
 
 /*
@@ -61,7 +61,7 @@ class Logger {
           listName: this.listName,
           itemData: {
             Title: summary,
-            Details: details
+            Details: JSON.stringify(details)
           }
         })
         .catch(error => {
